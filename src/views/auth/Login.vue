@@ -1,15 +1,17 @@
 <template>
-  <section class="section-container">
+  <section class="section-container container">
     <v-row class="signin">
       <v-col cols="6" class="left"> </v-col>
       <v-col cols="6" class="right flex-align-center">
         <div>
           <h1>Welcome to hotel admin</h1>
-          <h2 style="margin-top:10px">LOGIN</h2>
+          <h2 style="margin-top: 10px">LOGIN</h2>
           <v-form
             ref="form"
-                  v-model="valid"
-                  lazy-validation>
+            @submit.prevent="submit({ username, password })"
+            v-model="valid"
+            lazy-validation
+          >
             <v-text-field
               outlined
               label="Username"
@@ -19,9 +21,11 @@
               :counter="20"
               :rules="usernameRules"
               required
+              v-model="username"
             ></v-text-field>
             <v-text-field
               label="Password"
+              :type="showPass ? 'text' : 'password'"
               outlined
               background-color="#E3F2FD"
               rounded
@@ -29,12 +33,14 @@
               :counter="20"
               :rules="passwordRules"
               required
+              v-model="password"
+              :append-icon="
+                showPass ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
+              "
+              @click:append="clickShowPass"
             ></v-text-field>
-            <div class="d-flex justify-content-center">
-              <v-btn
-                color="#E0E0E0"
-                rounded
-              >
+            <div class="d-flex justify-center">
+              <v-btn :loading="loading" type="submit" color="#E0E0E0" rounded>
                 Login
               </v-btn>
             </div>
@@ -45,36 +51,58 @@
   </section>
 </template>
 <script>
-
+import { mapActions } from "vuex";
 
 export default {
-  components: {
-  },
+  components: {},
   data: () => ({
     valid: true,
+    username: "",
+    password: "",
     usernameRules: [
-      v => !!v || 'Username is required',
-      v => (v && v.length <= 20) || 'Username must be less than 20 characters',
+      (v) => !!v || "Username is required",
+      (v) =>
+        (v && v.length <= 20) || "Username must be less than 20 characters",
     ],
     passwordRules: [
-      v => !!v || 'Password is required',
-      v => (v && v.length <= 20) || 'Password must be less than 20 characters',
+      (v) => !!v || "Password is required",
+      (v) =>
+        (v && v.length <= 20) || "Password must be less than 20 characters",
     ],
+    loading: false,
+    showPass: false,
   }),
-  computed: {
-
-  },
+  computed: {},
   methods: {
-    validate () {
-      this.$refs.form.validate()
+    ...mapActions("auths", ["login"]),
+    // form validation
+    validate() {
+      this.$refs.form.validate();
     },
-    reset () {
-      this.$refs.form.reset()
+    reset() {
+      this.$refs.form.reset();
     },
-    resetValidation () {
-      this.$refs.form.resetValidation()
+    resetValidation() {
+      this.$refs.form.resetValidation();
     },
-  }
+    async submit(data) {
+      this.$refs.form.validate();
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        try {
+          await this.login(data);
+          this.$router.push("/");
+        } catch (err) {
+          this.$toast.error(err.data.message[0]);
+        } finally {
+          this.loading = false;
+        }
+      }
+    },
+    clickShowPass() {
+      this.showPass = !this.showPass;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -103,7 +131,6 @@ export default {
       background-color: #f9f9f9;
     }
     .right {
-      padding: 30px;
       box-sizing: border-box;
       background: #1976d2;
       color: #fff;
@@ -124,5 +151,6 @@ export default {
 }
 .theme--dark.v-btn.v-btn--has-bg {
   background-color: #272727ab;
-}</style
->>
+}
+</style>
+>
