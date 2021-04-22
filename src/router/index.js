@@ -1,7 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "../views/auth/Login";
-import Layout from "../views/layouts/Main.vue";
 import constants from "@/constants";
 
 const { TOKEN } = constants;
@@ -12,15 +10,29 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: Login,
+    component: () => import("../views/auth/Login"),
   },
   {
-    path: "/",
-    name: "Home",
-    component: Layout,
-    meta: {
-      requireAuth: true,
-    },
+    path: "",
+    component: () => import("../views/layouts/Main.vue"),
+    children: [
+      {
+        path: "/",
+        name: "Home",
+        component: () => import("../views/Home"),
+        meta: {
+          requireAuth: true,
+        },
+      },
+      {
+        path: "/rooms",
+        name: "Rooms",
+        component: () => import("../views/rooms/manageRooms"),
+        meta: {
+          requireAuth: true,
+        },
+      },
+    ],
   },
 ];
 

@@ -1,5 +1,9 @@
 import axios from "../../http/axios";
 
+import constants from "@/constants";
+
+const { TOKEN } = constants;
+
 export default {
   login({ commit }, payload) {
     return new Promise((resolve, reject) => {
@@ -20,5 +24,9 @@ export default {
           reject(err.response);
         });
     });
+  },
+  logout() {
+    localStorage.removeItem(TOKEN.ACCESS_TOKEN);
+    localStorage.removeItem(TOKEN.REFRESH_TOKEN);
   },
 };

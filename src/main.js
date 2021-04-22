@@ -5,6 +5,7 @@ import store from "./store";
 import vuetify from "../src/plugins/vuetify";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import "@/styles/main.scss";
 
 Vue.config.productionTip = false;
 const options = {

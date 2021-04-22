@@ -1,7 +1,5 @@
 <template>
-  <v-alert border="top" color="red lighten-2" dark>
-    I'm an alert with a top border and red color
-  </v-alert>
+  <v-alert border="top" color="red lighten-2" dark> THIS IS HOME </v-alert>
 </template>
 
 <script>
