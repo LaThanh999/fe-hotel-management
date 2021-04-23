@@ -1,185 +1,169 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="data"
     sort-by="calories"
     class="elevation-1"
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>Rooms</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="500px">
+        <v-dialog v-model="dialogAdd" persistent max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-              New Item
+            <v-btn color="primary" dark v-bind="attrs" v-on="on">
+              Add Room
             </v-btn>
           </template>
           <v-card>
             <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
+              <span class="headline">Add Room</span>
             </v-card-title>
-
             <v-card-text>
               <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.name"
-                      label="Dessert name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.calories"
-                      label="Calories"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.carbs"
-                      label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
+                <v-form ref="form" v-model="valid" lazy-validation>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="newRoom.roomNumber"
+                        :rules="[(v) => !!v || 'Room Status not require']"
+                        label="Room Number"
+                        required
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-select
+                        v-model="newRoom.roomTypeId"
+                        :items="listRoomType"
+                        item-value="id"
+                        item-text="name"
+                        label="Room Status"
+                        :rules="[(v) => !!v || 'Room Type not require']"
+                        required
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="newRoom.notes"
+                        :rules="[(v) => !!v || 'Note not require']"
+                        label="Note"
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-form>
               </v-container>
             </v-card-text>
-
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close"> Cancel </v-btn>
-              <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <v-dialog v-model="dialogDelete" max-width="500px">
-          <v-card>
-            <v-card-title class="headline"
-              >Are you sure you want to delete this item?</v-card-title
-            >
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete"
-                >Cancel</v-btn
-              >
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                >OK</v-btn
-              >
-              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialogAdd = false">
+                Close
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="saveAddRoom(newRoom)">
+                Save
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-      <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize"> Reset </v-btn>
-    </template>
   </v-data-table>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
+import constants from "@/constants";
+import mapping from "@/constants/mapping.js";
+const { ROOM_STATUS_MAPPING } = mapping;
 
 export default {
   name: "manageRooms",
   data: () => ({
-    dialog: false,
-    dialogDelete: false,
     headers: [
-      { text: "Room No", value: "calories" },
-      { text: "Type", value: "fat" },
-      { text: "Status", value: "carbs" },
-      { text: "Amount People", value: "protein" },
+      { text: "Room No", value: "roomNumber" },
+      { text: "Room Type", value: "nameRoomType" },
+      { text: "Room Status", value: "roomStatus" },
+      { text: "Amount People", value: "amountPeople", align: "center" },
+      { text: "Price", value: "price" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     data: [],
-    editedIndex: -1,
-    editedItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+    listRoomType: [],
+    listRoomStatus: [],
+    dialogAdd: false,
+    valid: true,
+    newRoom: {
+      roomNumber: null,
+      roomStatus: null,
+      roomTypeId: null,
+      notes: null,
     },
-    defaultItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+    defaultNewRoom: {
+      roomNumber: null,
+      roomStatus: null,
+      roomTypeId: null,
+      notes: null,
     },
   }),
-  created(){
-    this.initialize();
+  async created() {
+    // get api
+    await this.getAllRooms();
+    await this.getAllRoomType();
+    // get list Room Status
+    for (const [value, id] of Object.entries(constants.ROOM_STATUS)) {
+      if (!id || !value) {
+        continue;
+      }
+      this.listRoomStatus.push({ id, value: ROOM_STATUS_MAPPING[id] });
+    }
+    // set data
+
+    this.listRoomType = this.$store.state.roomType.roomType;
+    this.data = this.rooms;
+    this.data = this.data.map((el) => {
+      el.roomStatus = ROOM_STATUS_MAPPING[el.roomStatus];
+      return el;
+    });
+  },
+  watch: {
+    dialogAdd(value) {
+      if (!value) {
+        this.$refs.form.resetValidation();
+        this.newRoom = Object.assign({}, this.defaultNewRoom);
+      }
+    },
+    rooms(val) {
+      this.data = val;
+      this.data = val.map((el) => {
+        el.roomStatus = ROOM_STATUS_MAPPING[el.roomStatus];
+        return el;
+      });
+    },
   },
   computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    },
+    ...mapState("rooms", ["rooms"]),
   },
   methods: {
-    ...mapActions("rooms",["getAllRooms"]),
-    initialize() {
-      this.getAllRooms();
-    },
-
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-
-    deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
-      this.closeDelete();
-    },
-
-    close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    closeDelete() {
-      this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
-      } else {
-        this.desserts.push(this.editedItem);
+    ...mapActions("rooms", ["getAllRooms", "addRoom"]),
+    ...mapActions("roomType", ["getAllRoomType"]),
+    // add new room
+    saveAddRoom(data) {
+      this.$refs.form.validate();
+      if (this.$refs.form.validate()) {
+        data.roomStatus = 1;
+        this.addRoom(data)
+          .then(() => {
+            this.dialogAdd = false;
+            this.$toast.success("Add room successfully");
+          })
+          .catch((err) => {
+            this.$toast.error(err.data.message);
+          })
+          .finally(() => {
+            console.log(this.$store.state.rooms.rooms);
+          });
       }
-      this.close();
     },
   },
 };
