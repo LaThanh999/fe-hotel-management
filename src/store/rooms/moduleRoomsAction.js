@@ -26,4 +26,17 @@ export default {
         });
     });
   },
+  removeRoom({ dispatch }, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`/api/v1/rooms/${payload}`)
+        .then((res) => {
+          dispatch("getAllRooms");
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err.response);
+        });
+    });
+  },
 };

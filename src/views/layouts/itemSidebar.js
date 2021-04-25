@@ -9,6 +9,11 @@ const menu = [
     title: "Rooms",
     to: "/rooms",
   },
+  {
+    icon: "mdi-dock-window",
+    title: "Rooms Type",
+    to: "/roomstype",
+  },
 ];
 
 export default menu;

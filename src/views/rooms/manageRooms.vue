@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 import constants from "@/constants";
 import mapping from "@/constants/mapping.js";
 const { ROOM_STATUS_MAPPING } = mapping;
@@ -83,7 +83,7 @@ export default {
     headers: [
       { text: "Room No", value: "roomNumber" },
       { text: "Room Type", value: "nameRoomType" },
-      { text: "Room Status", value: "roomStatus" },
+      { text: "Room Status", value: "roomStatusMapping" },
       { text: "Amount People", value: "amountPeople", align: "center" },
       { text: "Price", value: "price" },
       { text: "Actions", value: "actions", sortable: false },
@@ -122,9 +122,10 @@ export default {
     this.listRoomType = this.$store.state.roomType.roomType;
     this.data = this.rooms;
     this.data = this.data.map((el) => {
-      el.roomStatus = ROOM_STATUS_MAPPING[el.roomStatus];
+      el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
       return el;
     });
+    //console.log(this.getByRomStatus(4));
   },
   watch: {
     dialogAdd(value) {
@@ -135,17 +136,18 @@ export default {
     },
     rooms(val) {
       this.data = val;
-      this.data = val.map((el) => {
-        el.roomStatus = ROOM_STATUS_MAPPING[el.roomStatus];
+      this.data = this.data.map((el) => {
+        el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
         return el;
       });
     },
   },
   computed: {
     ...mapState("rooms", ["rooms"]),
+    ...mapGetters("rooms", ["getByRomStatus"]),
   },
   methods: {
-    ...mapActions("rooms", ["getAllRooms", "addRoom"]),
+    ...mapActions("rooms", ["getAllRooms", "addRoom", "removeRoom"]),
     ...mapActions("roomType", ["getAllRoomType"]),
     // add new room
     saveAddRoom(data) {
@@ -159,9 +161,6 @@ export default {
           })
           .catch((err) => {
             this.$toast.error(err.data.message);
-          })
-          .finally(() => {
-            console.log(this.$store.state.rooms.rooms);
           });
       }
     },

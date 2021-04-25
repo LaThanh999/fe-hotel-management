@@ -1,5 +1,5 @@
 <template>
-  <v-overlay :value="loading">
+  <v-overlay style="z-index: 1000000000" :value="loading">
     <v-progress-circular indeterminate size="64"></v-progress-circular>
   </v-overlay>
 </template>

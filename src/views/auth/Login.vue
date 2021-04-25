@@ -18,7 +18,7 @@
               background-color="#E3F2FD"
               color="#424242"
               rounded
-              :counter="20"
+              :counter="40"
               :rules="usernameRules"
               required
               v-model="username"
@@ -62,7 +62,7 @@ export default {
     usernameRules: [
       (v) => !!v || "Username is required",
       (v) =>
-        (v && v.length <= 20) || "Username must be less than 20 characters",
+        (v && v.length <= 40) || "Username must be less than 20 characters",
     ],
     passwordRules: [
       (v) => !!v || "Password is required",

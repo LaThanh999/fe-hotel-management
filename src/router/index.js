@@ -32,6 +32,14 @@ const routes = [
           requireAuth: true,
         },
       },
+      {
+        path: "/roomsType",
+        name: "RoomsType",
+        component: () => import("../views/roomsType/roomTypes"),
+        meta: {
+          requireAuth: true,
+        },
+      },
     ],
   },
 ];
