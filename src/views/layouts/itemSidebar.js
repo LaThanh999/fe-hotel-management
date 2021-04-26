@@ -19,6 +19,11 @@ const menu = [
     title: "Users",
     to: "/users",
   },
+  {
+    icon: "mdi-dock-window",
+    title: "Customers",
+    to: "/customers",
+  },
 ];
 
 export default menu;

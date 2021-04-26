@@ -4,6 +4,7 @@ import auths from "./auths/moduleAuth";
 import rooms from "./rooms/moduleRooms";
 import roomType from "./roomType/moduleRoomType";
 import users from "./users/moduleUsers";
+import customers from "./customers/moduleCustomers";
 
 Vue.use(Vuex);
 
@@ -16,5 +17,6 @@ export default new Vuex.Store({
     rooms,
     roomType,
     users,
+    customers,
   },
 });

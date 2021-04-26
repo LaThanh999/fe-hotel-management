@@ -48,6 +48,14 @@ const routes = [
           requireAuth: true,
         },
       },
+      {
+        path: "/customers",
+        name: "Customer",
+        component: () => import("../views/customers/Customers"),
+        meta: {
+          requireAuth: true,
+        },
+      },
     ],
   },
 ];
