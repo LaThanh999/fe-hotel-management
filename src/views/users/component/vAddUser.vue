@@ -2,7 +2,7 @@
   <v-dialog v-model="checkDialog" persistent max-width="600px">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" dark v-bind="attrs" v-on="on">
-        Add Room Type
+        {{ title }}
       </v-btn>
     </template>
     <v-card>
@@ -13,37 +13,47 @@
         <v-container>
           <v-form ref="form" lazy-validation>
             <v-row>
+              <v-col cols="12"> </v-col>
               <v-col cols="12">
                 <v-text-field
-                  v-model="roomType.name"
-                  :rules="[(v) => !!v || 'Name Room Type not require']"
-                  label="Name Room Type"
+                  input="email"
+                  v-model="user.email"
+                  :rules="[(v) => !!v || 'Email not require']"
+                  label="Email"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  v-model="roomType.price"
-                  :rules="[(v) => !!v || 'Price not require']"
-                  label="Price Room"
+                  v-model="user.password"
+                  type="password"
+                  :rules="[(v) => !!v || 'Password  not require']"
+                  label="Password"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  v-model="roomType.amountPeople"
-                  :rules="[(v) => !!v || 'Amount People not require']"
-                  label="Amount People"
+                  v-model="user.confirmPassword"
+                  type="password"
+                  :rules="[(v) => !!v || 'Confirm Password not require']"
+                  label="Confirm Password Type"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field
-                  v-model="roomType.surchargeRate"
-                  :rules="[(v) => !!v || 'Surcharge Rate not require']"
-                  label="Surcharge Rate"
+                <v-text-field v-model="user.name" label="Name"></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-select
+                  v-model="user.role"
+                  :items="listRole"
+                  item-value="id"
+                  item-text="value"
+                  label="Role"
+                  :rules="[(v) => !!v || 'Role not require']"
                   required
-                ></v-text-field>
+                ></v-select>
               </v-col>
             </v-row>
           </v-form>
@@ -61,18 +71,29 @@
 </template>
 
 <script>
+import constants from "@/constants/index.js";
+const { ROLE } = constants;
+
 export default {
-  name: "vDialogRoomType",
+  name: "vAddUser",
   props: {
-    title: String,
     dialog: Boolean,
     save: Function,
-    roomType: Object,
+    user: Object,
   },
   data: () => ({
+    title: "Add User",
     checkDialog: false,
+    listRole: [],
   }),
-  mounted() {},
+  mounted() {
+    for (const [value, id] of Object.entries(ROLE)) {
+      if (!id || !value) {
+        continue;
+      }
+      this.listRole.push({ id, value });
+    }
+  },
   computed: {},
   watch: {
     dialog(value) {
@@ -87,7 +108,7 @@ export default {
   },
   methods: {
     clickSave() {
-      this.$emit("sendRoomType", this.roomType);
+      this.$emit("sendUser", this.user);
       this.save();
     },
   },

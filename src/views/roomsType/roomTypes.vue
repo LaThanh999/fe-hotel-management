@@ -33,7 +33,7 @@
       <v-icon small @click="clickRemoveRoomType(item)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary"> Reset </v-btn>
+      <v-btn color="primary" @click="reset"> Reset </v-btn>
     </template>
   </v-data-table>
 </template>
@@ -135,28 +135,27 @@ export default {
     },
     saveAddEditRoomType() {
       this.checkLoading = true;
-      const {name,price,amountPeople,surchargeRate} =this.itemResult;
+      const { name, price, amountPeople, surchargeRate } = this.itemResult;
       if (!this.idEdit) {
         this.addRoomType({
-          nameRoomType:name,
-          priceRoom:price,
+          nameRoomType: name,
+          priceRoom: price,
           amountPeople,
-          surchargeRate
+          surchargeRate,
         })
           .then(() => {
             this.$toast.success("Add room type successfully");
-            this.dialogAddEdit=false;
+            this.dialogAddEdit = false;
           })
           .catch((err) => {
             this.$toast.error(err.data.message[0]);
           })
-        .finally(()=>{
-          this.checkLoading = false;
-        })
-      }
-      else{
+          .finally(() => {
+            this.checkLoading = false;
+          });
+      } else {
         const result = {
-          id:this.idEdit,
+          id: this.idEdit,
           data: {
             nameRoomType: name,
             priceRoom: price,
@@ -167,15 +166,19 @@ export default {
         this.editRoomType(result)
           .then(() => {
             this.$toast.success("Edit room type successfully");
-            this.dialogAddEdit=false;
+            this.dialogAddEdit = false;
           })
           .catch((err) => {
             this.$toast.error(err.data.message[0]);
           })
           .finally(() => {
             this.checkLoading = false;
+            this.idEdit = null;
           });
       }
+    },
+    reset() {
+      this.getAllRoomType();
     },
   },
 };

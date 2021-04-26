@@ -22,6 +22,10 @@ const CONSTANTS = {
     Family: 4,
     Vip: 2,
   },
+  ROLE: {
+    User: 1,
+    Admin: 1000,
+  },
 };
 
 export default CONSTANTS;

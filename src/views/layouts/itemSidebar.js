@@ -12,7 +12,12 @@ const menu = [
   {
     icon: "mdi-dock-window",
     title: "Rooms Type",
-    to: "/roomstype",
+    to: "/roomsType",
+  },
+  {
+    icon: "mdi-dock-window",
+    title: "Users",
+    to: "/users",
   },
 ];
 

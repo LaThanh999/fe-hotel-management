@@ -16,6 +16,10 @@ const MAPPING = {
     [ROOM_TYPE.Family]: "Family",
     [ROOM_TYPE.Vip]: "Vip",
   },
+  ROLE_MAPPING: {
+    1: "User",
+    1000: "Admin",
+  },
 };
 
 export default MAPPING;

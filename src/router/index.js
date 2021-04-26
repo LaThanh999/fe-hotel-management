@@ -40,6 +40,14 @@ const routes = [
           requireAuth: true,
         },
       },
+      {
+        path: "/users",
+        name: "Users",
+        component: () => import("../views/users/users"),
+        meta: {
+          requireAuth: true,
+        },
+      },
     ],
   },
 ];

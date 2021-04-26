@@ -62,42 +62,8 @@
 
 <script>
 export default {
-  name: "vDialogRoomType",
-  props: {
-    title: String,
-    dialog: Boolean,
-    save: Function,
-    roomType: Object,
-  },
-  data: () => ({
-    checkDialog: false,
-  }),
-  mounted() {},
-  computed: {},
-  watch: {
-    dialog(value) {
-      this.checkDialog = value;
-    },
-    checkDialog(value) {
-      this.$emit("changeDialog", value);
-      if (!value) {
-        this.$refs.form.resetValidation();
-      }
-    },
-  },
-  methods: {
-    clickSave() {
-      this.$emit("sendRoomType", this.roomType);
-      this.save();
-    },
-  },
+  name: "vEditUser",
 };
 </script>
 
-<style scoped lang="scss">
-.modal {
-  border-bottom: 1px solid #3333;
-  justify-content: center;
-  background: var(--title-modal) !important;
-}
-</style>
+<style scoped></style>

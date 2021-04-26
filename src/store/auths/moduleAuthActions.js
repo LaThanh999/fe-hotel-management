@@ -13,7 +13,8 @@ export default {
           password: payload.password,
         })
         .then((res) => {
-          console.log(res.data);
+          const { id, email, role } = res.data;
+          commit("SET_ME", { id, email, role });
           commit("SET_TOKEN", {
             accessToken: res.data.token,
             refreshToken: res.data.refreshToken,
