@@ -12,7 +12,7 @@
         <v-spacer></v-spacer>
         <v-confirm
           :dialog="dialogConfirmRemove"
-          :removeRoomType="saveRemove"
+          remove="saveRemove"
           @changeDialogConfirm="dialogConfirmRemove = $event"
         ></v-confirm>
       </v-toolbar>
@@ -22,7 +22,7 @@
       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary"> Reset </v-btn>
+      <v-loading :loading="true"></v-loading>
     </template>
   </v-data-table>
 </template>

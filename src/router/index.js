@@ -27,7 +27,7 @@ const routes = [
       {
         path: "/rooms",
         name: "Rooms",
-        component: () => import("../views/rooms/manageRooms"),
+        component: () => import("../views/rooms/Rooms"),
         meta: {
           requireAuth: true,
         },

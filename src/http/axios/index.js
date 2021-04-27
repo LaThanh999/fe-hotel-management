@@ -21,4 +21,14 @@ instance.interceptors.request.use(
   }
 );
 
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status == 401) {
+      localStorage.removeItem(TOKEN.ACCESS_TOKEN);
+      localStorage.removeItem(TOKEN.REFRESH_TOKEN);
+    }
+  }
+);
+
 export default instance;

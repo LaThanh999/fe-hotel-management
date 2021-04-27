@@ -22,7 +22,7 @@
       <v-confirm
         :dialog.sync="dialogConfirm"
         @changeDialogConfirm="dialogConfirm = $event"
-        :removeRoomType="saveRemoveRoomType"
+        :remove="saveRemoveRoomType"
       ></v-confirm>
       <v-loading :loading="checkLoading"></v-loading>
     </template>
@@ -33,7 +33,7 @@
       <v-icon small @click="clickRemoveRoomType(item)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="reset"> Reset </v-btn>
+      <v-loading :loading="true"></v-loading>
     </template>
   </v-data-table>
 </template>

@@ -23,7 +23,7 @@ export default {
   name: "vConfirm",
   props: {
     dialog: Boolean,
-    removeRoomType: Function,
+    remove: Function,
   },
   data: () => ({
     dialogConfirm: false,
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     save() {
-      this.removeRoomType();
+      this.remove();
     },
   },
 };

@@ -14,4 +14,56 @@ export default {
         });
     });
   },
+  addCustomer({ dispatch }, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/api/v1/customers", payload)
+        .then(() => {
+          dispatch("getAllCustomer").then((res) => {
+            resolve(res.data);
+          });
+        })
+        .catch((err) => {
+          reject(err.response);
+        });
+    });
+  },
+  removeCustomer({ dispatch }, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`/api/v1/customers/${payload}`)
+        .then((res) => {
+          dispatch("getAllCustomer");
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err.response);
+        });
+    });
+  },
+  getCustomerById(_, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/api/v1/customers/${payload}`)
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err.response);
+        });
+    });
+  },
+  editCustomer({ dispatch }, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`/api/v1/customers/${payload.id}`, payload.data)
+        .then((res) => {
+          dispatch("getAllCustomer");
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err.response);
+        });
+    });
+  },
 };

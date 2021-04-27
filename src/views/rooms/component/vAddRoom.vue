@@ -2,7 +2,7 @@
   <v-dialog v-model="checkDialog" persistent max-width="600px">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" dark v-bind="attrs" v-on="on">
-        Add Customer
+        {{ title }}
       </v-btn>
     </template>
     <v-card>
@@ -15,32 +15,10 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  v-model="customer.name"
-                  :rules="[(v) => !!v || 'Name  not require']"
-                  label="Name"
+                  :rules="[(v) => !!v || 'Email not require']"
+                  label="Email"
                   required
                 ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  input="number"
-                  v-model="customer.phoneNumber"
-                  :rules="[(v) => !!v || 'Phone Number not require']"
-                  label="Phone Number"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  input="number"
-                  v-model="customer.identityCard"
-                  :rules="[(v) => !!v || 'Identity card not require']"
-                  label="Identity card"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Notes"></v-text-field>
               </v-col>
             </v-row>
           </v-form>
@@ -59,14 +37,14 @@
 
 <script>
 export default {
-  name: "vAddEditCustomer",
+  name: "vAddRoom",
   props: {
-    title: String,
     dialog: Boolean,
+    room: Object,
     save: Function,
-    customer: Object,
   },
   data: () => ({
+    title: "Add Room",
     checkDialog: false,
   }),
   watch: {
@@ -82,10 +60,8 @@ export default {
   },
   methods: {
     clickSave() {
-      if (this.$refs.form.validate()) {
-        this.$emit("sendCustomer", this.customer);
-        this.save();
-      }
+      this.$emit("sendRoom", this.room);
+      this.save();
     },
   },
 };
