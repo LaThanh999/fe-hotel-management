@@ -1,5 +1,6 @@
 import axios from "axios";
 import constants from "@/constants";
+import router from "@/router/index.js";
 
 const baseURL = "https://hotel-service-2021.herokuapp.com";
 const { TOKEN } = constants;
@@ -27,6 +28,7 @@ instance.interceptors.response.use(
     if (error.response.status == 401) {
       localStorage.removeItem(TOKEN.ACCESS_TOKEN);
       localStorage.removeItem(TOKEN.REFRESH_TOKEN);
+      router.push("/login");
     }
   }
 );

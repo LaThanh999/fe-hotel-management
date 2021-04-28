@@ -14,12 +14,40 @@ export default {
         });
     });
   },
+  getRoomById(_, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/api/v1/rooms/${payload}`)
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
   addRoom({ dispatch }, payload) {
     return new Promise((resolve, reject) => {
       axios
         .post("/api/v1/rooms", payload)
-        .then(() => {
-          dispatch("getAllRooms").then((res) => resolve(res));
+        .then((res) => {
+          console.log("success");
+          dispatch("getAllRooms");
+          resolve(res);
+        })
+        .catch((err) => {
+          console.log("err");
+          reject(err);
+        });
+    });
+  },
+  editRoomSelect({ dispatch }, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`/api/v1/rooms/${payload.id}`, payload.data)
+        .then((res) => {
+          dispatch("getAllRooms");
+          resolve(res);
         })
         .catch((err) => {
           reject(err.response);

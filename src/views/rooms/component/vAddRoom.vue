@@ -1,13 +1,8 @@
 <template>
   <v-dialog v-model="checkDialog" persistent max-width="600px">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on">
-        {{ title }}
-      </v-btn>
-    </template>
     <v-card>
       <v-card-title class="modal">
-        <span class="headline">{{ title }}</span>
+        <span class="headline">Add New Room</span>
       </v-card-title>
       <v-card-text class="px-6">
         <v-container>
@@ -15,10 +10,25 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  :rules="[(v) => !!v || 'Email not require']"
-                  label="Email"
+                  v-model="room.roomNumber"
+                  :rules="[(v) => !!v || 'Room number not require']"
+                  label="Room Number"
                   required
                 ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-select
+                  v-model="room.roomTypeId"
+                  :items="roomType"
+                  :rules="[(v) => !!v || 'Room type not require']"
+                  required
+                  item-text="name"
+                  item-value="id"
+                  label="Room Type"
+                ></v-select>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field v-model="room.notes" label="Notes"></v-text-field>
               </v-col>
             </v-row>
           </v-form>
@@ -36,6 +46,8 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
 export default {
   name: "vAddRoom",
   props: {
@@ -44,9 +56,11 @@ export default {
     save: Function,
   },
   data: () => ({
-    title: "Add Room",
     checkDialog: false,
   }),
+  computed: {
+    ...mapState("roomType", ["roomType"]),
+  },
   watch: {
     dialog(value) {
       this.checkDialog = value;
@@ -59,9 +73,12 @@ export default {
     },
   },
   methods: {
+    ...mapActions("roomType", ["getAllRoomType"]),
     clickSave() {
-      this.$emit("sendRoom", this.room);
-      this.save();
+      if (this.$refs.form.validate()) {
+        this.$emit("sendRoom", this.room);
+        this.save();
+      }
     },
   },
 };

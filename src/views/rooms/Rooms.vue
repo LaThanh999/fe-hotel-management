@@ -35,7 +35,7 @@
         Add Room
       </v-btn>
     </div>
-    <div class="mt-2 rooms">
+    <div v-show="listRoom.length > 0" class="mt-2 rooms">
       <v-row class="pa-6">
         <v-col v-for="room in listRoom" :key="room.id" cols="4">
           <card-room :room="room"></card-room>
@@ -49,6 +49,7 @@
       @changeDialog="dialogAdd = $event"
       @sendRoom="newRoom = $event"
     ></v-add-room>
+    <v-loading :loading="dialogLoading"></v-loading>
   </v-container>
 </template>
 
@@ -58,26 +59,26 @@ import constants from "@/constants";
 import mapping from "@/constants/mapping.js";
 import CardRoom from "./component/vCardRoom";
 import VAddRoom from "./component/vAddRoom";
+import VLoading from "../../components/vLoading";
 const { ROOM_STATUS_MAPPING } = mapping;
 
 export default {
   name: "manageRooms",
-  components: { VAddRoom, CardRoom },
+  components: { VLoading, VAddRoom, CardRoom },
   data: () => ({
     listRoom: [],
     listRoomType: [],
     listRoomStatus: [],
     dialogAdd: false,
+    dialogLoading: false,
     valid: true,
     newRoom: {
       roomNumber: null,
-      roomStatus: null,
       roomTypeId: null,
       notes: null,
     },
     defaultNewRoom: {
       roomNumber: null,
-      roomStatus: null,
       roomTypeId: null,
       notes: null,
     },
@@ -85,6 +86,7 @@ export default {
     roomStatusSelect: null,
   }),
   async created() {
+    this.dialogLoading = true;
     // get api
     await this.getAllRooms();
     await this.getAllRoomType();
@@ -102,8 +104,17 @@ export default {
       el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
       return el;
     });
+    this.dialogLoading = false;
   },
-  watch: {},
+  watch: {
+    rooms(value) {
+      this.listRoom = value;
+      this.listRoom = this.listRoom.map((el) => {
+        el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
+        return el;
+      });
+    },
+  },
   computed: {
     ...mapState("rooms", ["rooms"]),
     ...mapGetters("rooms", ["getByRomStatus"]),
@@ -111,7 +122,25 @@ export default {
   methods: {
     ...mapActions("rooms", ["getAllRooms", "addRoom", "removeRoom"]),
     ...mapActions("roomType", ["getAllRoomType"]),
-    saveAddRoom() {},
+    saveAddRoom() {
+      this.dialogLoading = true;
+      const data = {
+        ...this.newRoom,
+        roomStatus: 1,
+      };
+      this.addRoom(data)
+        .then(() => {
+          this.$toast.success("Add room successfully");
+          this.dialogAdd = false;
+          this.newRoom = Object.assign({}, this.defaultNewRoom);
+        })
+        .catch((err) => {
+          this.$toast.error(err.data.message);
+        })
+        .finally(() => {
+          this.dialogLoading = false;
+        });
+    },
   },
 };
 </script>
