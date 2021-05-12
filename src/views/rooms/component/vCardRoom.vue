@@ -3,7 +3,7 @@
     <v-img
       class="white--text align-end"
       height="100px"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      :src="getImageRoom(room.nameRoomType)"
     >
       <v-card-title>Room Type: {{ room.nameRoomType }}</v-card-title>
     </v-img>
@@ -102,8 +102,8 @@ export default {
       };
       this.editRoomSelect(data)
         .then(() => {
-          this.$toast.success("Edit room successfully");
           this.dialogEdit = false;
+          this.$toast.success("Edit room successfully");
           this.editRoom = Object.assign({}, this.defaultEditRoom);
         })
         .catch((err) => {
@@ -126,6 +126,15 @@ export default {
           this.dialogLoading = false;
           this.dialogRemove = false;
         });
+    },
+    getImageRoom(type) {
+      if (type == "Vip") {
+        return `https://cdn.vuetifyjs.com/images/cards/cooking.png`;
+      } else if (type == "Normal") {
+        return `https://cdn.vuetifyjs.com/images/cards/cooking.png`;
+      } else {
+        return ``;
+      }
     },
   },
 };

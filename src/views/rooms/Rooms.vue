@@ -9,7 +9,6 @@
           label="Room Type"
           item-text="name"
           item-value="id"
-          chips
         >
         </v-combobox>
       </v-col>
@@ -21,7 +20,6 @@
           label="Room Type"
           item-text="value"
           item-value="id"
-          chips
         ></v-combobox>
       </v-col>
       <v-col cols="2"></v-col>
@@ -104,6 +102,7 @@ export default {
       el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
       return el;
     });
+    console.log(this.listRoom);
     this.dialogLoading = false;
   },
   watch: {

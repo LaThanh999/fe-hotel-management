@@ -42,7 +42,7 @@ export default {
     });
   },
   editRoomSelect({ dispatch }, payload) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) =>
       axios
         .put(`/api/v1/rooms/${payload.id}`, payload.data)
         .then((res) => {
@@ -51,9 +51,10 @@ export default {
         })
         .catch((err) => {
           reject(err.response);
-        });
-    });
+        })
+    );
   },
+
   removeRoom({ dispatch }, payload) {
     return new Promise((resolve, reject) => {
       axios

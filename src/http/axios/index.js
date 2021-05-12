@@ -30,6 +30,7 @@ instance.interceptors.response.use(
       localStorage.removeItem(TOKEN.REFRESH_TOKEN);
       router.push("/login");
     }
+    return Promise.reject(error);
   }
 );
 
