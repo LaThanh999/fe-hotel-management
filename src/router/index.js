@@ -56,6 +56,14 @@ const routes = [
           requireAuth: true,
         },
       },
+      {
+        path: "/book-room",
+        name: "Book Room",
+        component: () => import("../views/bookRoom/BookRoom"),
+        meta: {
+          requireAuth: true,
+        },
+      },
     ],
   },
 ];

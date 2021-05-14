@@ -129,11 +129,11 @@ export default {
     },
     getImageRoom(type) {
       if (type == "Vip") {
-        return `https://cdn.vuetifyjs.com/images/cards/cooking.png`;
+        return require(`@/assets/room_vip.jpg`);
       } else if (type == "Normal") {
-        return `https://cdn.vuetifyjs.com/images/cards/cooking.png`;
+        return require(`@/assets/room_dexule.jpg`);
       } else {
-        return ``;
+        return require(`@/assets/room_family.jpg`);
       }
     },
   },

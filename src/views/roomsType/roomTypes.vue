@@ -80,9 +80,11 @@ export default {
     checkEdit: false,
     idEdit: null,
     checkLoading: false,
+    roomTypeUse: [],
   }),
   computed: {
     ...mapState("roomType", ["roomType"]),
+    ...mapState("rooms", ["rooms"]),
   },
 
   watch: {
@@ -92,10 +94,20 @@ export default {
         this.itemEdit = Object.assign({}, this.defaultItem);
       }
     },
+    rooms(val) {
+      val.map((el) => {
+        if (this.roomTypeUse.indexOf(el.roomTypeId) < 0) {
+          this.roomTypeUse.push(el.roomTypeId);
+        }
+      });
+    },
   },
 
-  created() {
-    this.getAllRoomType();
+  async created() {
+    this.checkLoading = true;
+    await this.getAllRoomType();
+    await this.getAllRooms();
+    this.checkLoading = false;
   },
 
   methods: {
@@ -106,24 +118,30 @@ export default {
       "editRoomType",
       "addRoomType",
     ]),
+    ...mapActions("rooms", ["getAllRooms"]),
     clickRemoveRoomType(data) {
       this.dialogConfirm = true;
       this.itemRemove = data;
     },
     saveRemoveRoomType() {
-      const data = this.itemRemove;
-      this.checkLoading = true;
-      this.removeRoomType(data.id)
-        .then(() => {
-          this.$toast.success("Remove room type successfully");
-        })
-        .catch((err) => {
-          this.$toast.error(err.data.message);
-        })
-        .finally(() => {
-          this.dialogConfirm = false;
-          this.checkLoading = false;
-        });
+      if (this.roomTypeUse.indexOf(this.itemRemove.id) >= 0) {
+        this.$toast.error("Can not remove room type is using");
+        this.dialogConfirm = false;
+      } else {
+        const data = this.itemRemove;
+        this.checkLoading = true;
+        this.removeRoomType(data.id)
+          .then(() => {
+            this.$toast.success("Remove room type successfully");
+          })
+          .catch((err) => {
+            this.$toast.error(err.data.message);
+          })
+          .finally(() => {
+            this.dialogConfirm = false;
+            this.checkLoading = false;
+          });
+      }
     },
     clickEditRoomType(data) {
       this.title = "Edit Room Type";

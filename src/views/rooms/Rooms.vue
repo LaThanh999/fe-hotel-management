@@ -33,12 +33,19 @@
         Add Room
       </v-btn>
     </div>
-    <div v-show="listRoom.length > 0" class="mt-2 rooms">
+    <div v-if="listRoom.length > 0" class="mt-2 rooms">
       <v-row class="pa-6">
         <v-col v-for="room in listRoom" :key="room.id" cols="4">
-          <card-room :room="room"></card-room>
-        </v-col>
+          <card-room :room="room"></card-room> </v-col
+        >`
       </v-row>
+    </div>
+    <div v-else class="mt-4">
+      <v-alert prominent type="error">
+        <v-row align="center">
+          <v-col class="grow"> Rooms is empty. </v-col>
+        </v-row>
+      </v-alert>
     </div>
     <v-add-room
       :dialog="dialogAdd"
@@ -89,6 +96,7 @@ export default {
     await this.getAllRooms();
     await this.getAllRoomType();
     // get list Room Status
+    this.listRoomStatus.push({ id: 0, value: "All" });
     for (const [value, id] of Object.entries(constants.ROOM_STATUS)) {
       if (!id || !value) {
         continue;
@@ -97,12 +105,12 @@ export default {
     }
     // set data
     this.listRoomType = this.$store.state.roomType.roomType;
+    this.listRoomType = [{ id: 0, name: "All" }, ...this.listRoomType];
     this.listRoom = this.rooms;
     this.listRoom = this.listRoom.map((el) => {
       el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
       return el;
     });
-    console.log(this.listRoom);
     this.dialogLoading = false;
   },
   watch: {
@@ -113,10 +121,24 @@ export default {
         return el;
       });
     },
+    roomTypeSelect(val) {
+      this.listRoom = this.getByRoomType(val.id);
+      this.listRoom = this.listRoom.map((el) => {
+        el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
+        return el;
+      });
+    },
+    roomStatusSelect(val) {
+      this.listRoom = this.getByRomStatus(val.id);
+      this.listRoom = this.listRoom.map((el) => {
+        el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
+        return el;
+      });
+    },
   },
   computed: {
     ...mapState("rooms", ["rooms"]),
-    ...mapGetters("rooms", ["getByRomStatus"]),
+    ...mapGetters("rooms", ["getByRomStatus", "getByRoomType"]),
   },
   methods: {
     ...mapActions("rooms", ["getAllRooms", "addRoom", "removeRoom"]),
