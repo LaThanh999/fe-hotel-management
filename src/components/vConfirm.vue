@@ -1,9 +1,9 @@
 <template>
   <v-dialog v-model="dialogConfirm" max-width="320">
     <v-card>
-      <v-card-title class="headline"> Are you sure? </v-card-title>
+      <v-card-title class="headline"> Are you sure about that? </v-card-title>
 
-      <v-card-text> You cannot restore </v-card-text>
+      <v-card-text> You cannot reverse </v-card-text>
 
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -39,6 +39,7 @@ export default {
   methods: {
     save() {
       this.remove();
+      this.dialogConfirm = false;
     },
   },
 };

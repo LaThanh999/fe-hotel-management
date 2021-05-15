@@ -66,4 +66,16 @@ export default {
         });
     });
   },
+  checkCustomerByIdentityCard(_, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/api/v1/customers/name/${payload}`)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err.response);
+        });
+    });
+  },
 };

@@ -10,25 +10,36 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  v-model="room.roomNumber"
-                  :rules="[(v) => !!v || 'Room number not require']"
-                  label="Room Number"
+                  type="number"
+                  :rules="[(v) => !!v || ' Amount People not require']"
+                  label="Amount People"
+                  outlined
                   required
+                  min="1"
+                  v-model="dataInput.amountPeople"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-select
-                  v-model="room.roomTypeId"
-                  :items="roomType"
-                  :rules="[(v) => !!v || 'Room type not require']"
-                  required
-                  item-text="name"
-                  item-value="id"
-                  label="Room Type"
-                ></v-select>
+                <v-date-time-picker
+                  label="Select CheckIn Date"
+                  v-model="dataInput.checkInDate"
+                >
+                </v-date-time-picker>
               </v-col>
               <v-col cols="12">
-                <v-text-field v-model="room.notes" label="Notes"></v-text-field>
+                <v-date-time-picker
+                  label="Select CheckOut Date"
+                  v-model="dataInput.checkOutDate"
+                >
+                </v-date-time-picker>
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  outlined
+                  name="input-7-4"
+                  v-model="dataInput.notes"
+                  label="Note"
+                ></v-textarea>
               </v-col>
             </v-row>
           </v-form>
@@ -39,27 +50,25 @@
         <v-btn color="blue darken-1" text @click="checkDialog = false">
           Close
         </v-btn>
-        <v-btn color="blue darken-1" text @click="clickSave()"> Save </v-btn>
+        <v-btn color="blue darken-1" text @click="clickSave"> Save </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-
+import VDateTimePicker from "../../../components/vDateTimePicker";
 export default {
-  name: "vAddRoom",
+  name: "vFormBookRoom",
+  components: { VDateTimePicker },
   props: {
     dialog: Boolean,
-    room: Object,
+    dataBookRoom: Object,
   },
   data: () => ({
     checkDialog: false,
+    dataInput: {},
   }),
-  computed: {
-    ...mapState("roomType", ["roomType"]),
-  },
   watch: {
     dialog(value) {
       this.checkDialog = value;
@@ -70,13 +79,17 @@ export default {
         this.$refs.form.resetValidation();
       }
     },
+    dataBookRoom(value) {
+      this.dataInput = value;
+    },
   },
   methods: {
-    ...mapActions("roomType", ["getAllRoomType"]),
     clickSave() {
       if (this.$refs.form.validate()) {
-        this.$emit("sendRoom", this.room);
-        this.save();
+        this.$emit("sendDataInput", this.dataInput);
+        this.checkDialog = false;
+      } else {
+        this.$refs.form.validate();
       }
     },
   },
