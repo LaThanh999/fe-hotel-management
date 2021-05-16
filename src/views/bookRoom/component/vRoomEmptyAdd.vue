@@ -9,7 +9,7 @@
           :checkValidation="checkValidation"
           :data="data"
           :room="room"
-          @checkBookRoom="checkBookRoom=$event"
+          @checkBookRoom="checkBookRoom = $event"
         ></v-card-room-empty-add>
       </v-col>
     </v-row>
@@ -26,16 +26,16 @@ export default {
     data: Object,
     checkValidation: Function,
   },
-  data: ()=>({
-    checkBookRoom:false
+  data: () => ({
+    checkBookRoom: false,
   }),
-  watch:{
-    checkBookRoom(value){
-      if(value){
-        this.$emit("checkBookRoom", value)
+  watch: {
+    checkBookRoom(value) {
+      if (value) {
+        this.$emit("checkBookRoom", value);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

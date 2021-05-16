@@ -71,7 +71,7 @@ export default {
           .then(() => {
             this.$toast.success("Book Room Successfully");
             this.getAllRooms();
-            this.$emit("checkBookRoom", true)
+            this.$emit("checkBookRoom", true);
           })
           .catch((err) => {
             this.$toast.error(err.data.message);

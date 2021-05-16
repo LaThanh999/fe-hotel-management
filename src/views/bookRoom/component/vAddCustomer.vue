@@ -68,7 +68,7 @@
             :data="data"
             :checkValidation="checkValidation"
             :rooms="roomsEmpty"
-            @checkBookRoom="checkBookRoom=$event"
+            @checkBookRoom="checkBookRoom = $event"
           ></v-room-empty-add>
         </v-col>
       </v-row>
@@ -108,22 +108,22 @@ export default {
     },
     roomsEmpty: [],
     checkLoading: false,
-    checkBookRoom:false,
+    checkBookRoom: false,
   }),
   computed: {
     ...mapState("rooms", ["rooms"]),
     ...mapGetters("rooms", ["getByRomStatus"]),
   },
   watch: {
-    rooms(){
+    rooms() {
       this.roomsEmpty = this.getByRomStatus(1);
     },
-    checkBookRoom(value){
-      if(value ){
+    checkBookRoom(value) {
+      if (value) {
         this.data = Object.assign({}, this.dataDefault);
-        this.$refs.form.reset()
+        this.$refs.form.reset();
       }
-    }
+    },
   },
   async created() {
     this.checkLoading = true;

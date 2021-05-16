@@ -64,6 +64,14 @@ const routes = [
           requireAuth: true,
         },
       },
+      {
+        path: "/payment",
+        name: "Payment",
+        component: () => import("../views/payment/payment"),
+        meta: {
+          requireAuth: true,
+        },
+      },
     ],
   },
 ];

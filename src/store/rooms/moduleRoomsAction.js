@@ -33,7 +33,7 @@ export default {
         .then((res) => {
           console.log("success");
           dispatch("getAllRooms");
-          resolve(res);
+          resolve(res.data);
         })
         .catch((err) => {
           console.log("err");

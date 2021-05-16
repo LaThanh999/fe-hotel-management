@@ -29,6 +29,11 @@ const menu = [
     title: "Book Room",
     to: "/book-room",
   },
+  {
+    icon: "mdi-dock-window",
+    title: "Payment",
+    to: "/payment",
+  },
 ];
 
 export default menu;
