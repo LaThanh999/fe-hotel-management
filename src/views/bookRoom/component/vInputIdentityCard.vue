@@ -62,6 +62,12 @@ export default {
       checkOutDate: "",
       notes: "",
     },
+    dataBookRoomDefault: {
+      amountPeople: null,
+      checkInDate: "",
+      checkOutDate: "",
+      notes: "",
+    },
   }),
   async created() {
     this.checkLoading = true;
@@ -83,6 +89,7 @@ export default {
       this.bookRoom(data)
         .then(() => {
           this.$toast.success("Book Room Successfully");
+          this.dataBookRoom=Object.assign({},this.dataBookRoomDefault);
         })
         .catch((err) => {
           this.$toast.error(err.data.message);

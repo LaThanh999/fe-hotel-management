@@ -6,30 +6,36 @@
       </v-card-title>
       <v-card-text class="px-6 body-payment">
         <v-container>
-          <div  class="d-flex justify-space-between mt-4">
+          <div class="d-flex justify-space-between mt-4">
             <span class="text-payment">Name:</span>
-            <span class="value-payment"> {{data.customerInfo &&  data.customerInfo.name}} </span>
+            <span class="value-payment">
+              {{ data.customerInfo && data.customerInfo.name }}
+            </span>
           </div>
           <div class="d-flex justify-space-between mt-4">
             <span class="text-payment">Phone Number:</span>
-            <span class="value-payment"> {{data.customerInfo && data.customerInfo.phoneNumber}} </span>
+            <span class="value-payment">
+              {{ data.customerInfo && data.customerInfo.phoneNumber }}
+            </span>
           </div>
           <div class="d-flex justify-space-between mt-4">
             <span class="text-payment">Identity Card:</span>
-            <span class="value-payment"> {{data.customerInfo && data.customerInfo.identityCard}} </span>
+            <span class="value-payment">
+              {{ data.customerInfo && data.customerInfo.identityCard }}
+            </span>
           </div>
           <div class="d-flex justify-space-between mt-4">
             <span class="text-payment">CheckIn Date:</span>
-            <span class="value-payment"> {{data && data.checkInDate}} </span>
+            <span class="value-payment"> {{ data && data.checkInDate }} </span>
           </div>
           <div class="d-flex justify-space-between mt-4">
             <span class="text-payment">CheckOut Date:</span>
-            <span class="value-payment"> {{data && data.checkOutDate}} </span>
+            <span class="value-payment"> {{ data && data.checkOutDate }} </span>
           </div>
           <div class="inline my-4"></div>
           <div class="d-flex justify-space-between mt-4">
             <span class="text-payment">Total:</span>
-            <span class="value-payment"> {{data && data.totalPrice}} $ </span>
+            <span class="value-payment"> {{ data && data.totalPrice }} $ </span>
           </div>
         </v-container>
       </v-card-text>

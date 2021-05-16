@@ -92,18 +92,14 @@ export default {
     payment(id) {
       this.paymentComplete({ orderId: id })
         .then((res) => {
-
           this.dataPayment = {
             ...res.order,
-            checkInDate:new Date(
-               res.order.checkInDate
-            ).toLocaleString(),
-            checkOutDate:new Date(
-                res.order.checkOutDate
-            ).toLocaleString(),
+            checkInDate: new Date(res.order.checkInDate).toLocaleString(),
+            checkOutDate: new Date(res.order.checkOutDate).toLocaleString(),
           };
         })
         .catch((err) => {
+          this.dataPayment = {};
           this.$toast.error(err.data.message);
         });
     },
