@@ -57,8 +57,8 @@ export default {
   components: {},
   data: () => ({
     valid: true,
-    username: "",
-    password: "",
+    username: "admin@localhost.com",
+    password: "Nodecore@2",
     usernameRules: [
       (v) => !!v || "Username is required",
       (v) =>
@@ -93,7 +93,7 @@ export default {
           await this.login(data);
           this.$router.push("/");
         } catch (err) {
-          this.$toast.error(err.data.message[0]);
+          this.$toast.error(err.data.message);
         } finally {
           this.loading = false;
         }

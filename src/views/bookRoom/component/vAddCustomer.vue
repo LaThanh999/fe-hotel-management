@@ -63,6 +63,8 @@
             label="Note"
           ></v-textarea>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="12" sm="12" class="mt-6">
           <v-room-empty-add
             :data="data"
@@ -72,7 +74,9 @@
           ></v-room-empty-add>
         </v-col>
       </v-row>
-      <v-loading :loading="checkLoading"></v-loading>
+      <v-overlay :absolute="true" :value="checkLoading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </v-container>
   </v-form>
 </template>
@@ -81,10 +85,9 @@
 import VDateTimePicker from "../../../components/vDateTimePicker";
 import { mapActions, mapGetters, mapState } from "vuex";
 import VRoomEmptyAdd from "./vRoomEmptyAdd";
-import VLoading from "../../../components/vLoading";
 export default {
   name: "vAddCustomer",
-  components: { VLoading, VRoomEmptyAdd, VDateTimePicker },
+  components: { VRoomEmptyAdd, VDateTimePicker },
   data: () => ({
     data: {
       name: "",

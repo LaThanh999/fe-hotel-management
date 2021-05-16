@@ -1,7 +1,7 @@
 <template>
   <v-card color="basil">
-    <v-card-title class="text-center justify-center py-6">
-      <h1 class="font-weight-bold display-3 basil--text">Book Room</h1>
+    <v-card-title class="text-center justify-center py-6 box-header">
+      <span class="title-page mb-4">BOOK ROOM</span>
     </v-card-title>
     <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
       <v-tab v-for="item in items" :key="item">

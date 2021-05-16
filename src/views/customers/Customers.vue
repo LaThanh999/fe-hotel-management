@@ -1,41 +1,44 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="customers"
-    sort-by="calories"
-    class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat>
-        <v-toolbar-title>Customers</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
-        <v-add-edit-customer
-          :dialog="dialogEditAdd"
-          :title="title"
-          :customer="customer"
-          :save="saveAddEditCustomer"
-          @changeDialog="dialogEditAdd = $event"
-          @sendCustomer="customer = $event"
-        ></v-add-edit-customer>
-        <v-confirm
-          :dialog.sync="dialogConfirm"
-          @changeDialogConfirm="dialogConfirm = $event"
-          :remove="saveRemove"
-        ></v-confirm>
-      </v-toolbar>
-      <v-loading :loading="dialogLoading"></v-loading>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="clickEdit(item.id)">
-        mdi-pencil
-      </v-icon>
-      <v-icon small @click="clickRemove(item.id)"> mdi-delete </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-loading :loading="true"></v-loading>
-    </template>
-  </v-data-table>
+  <v-card>
+    <v-card-title class="text-center justify-center py-6 box-header">
+      <span class="title-page mb-4">CUSTOMERS</span>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="customers"
+      sort-by="calories"
+      class="elevation-1"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-spacer></v-spacer>
+          <v-add-edit-customer
+            :dialog="dialogEditAdd"
+            :title="title"
+            :customer="customer"
+            :save="saveAddEditCustomer"
+            @changeDialog="dialogEditAdd = $event"
+            @sendCustomer="customer = $event"
+          ></v-add-edit-customer>
+          <v-confirm
+            :dialog.sync="dialogConfirm"
+            @changeDialogConfirm="dialogConfirm = $event"
+            :remove="saveRemove"
+          ></v-confirm>
+        </v-toolbar>
+        <v-loading :loading="dialogLoading"></v-loading>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-icon small class="mr-2" @click="clickEdit(item.id)">
+          mdi-pencil
+        </v-icon>
+        <v-icon small @click="clickRemove(item.id)"> mdi-delete </v-icon>
+      </template>
+      <template v-slot:no-data>
+        <v-loading :loading="true"></v-loading>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>

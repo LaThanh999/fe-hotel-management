@@ -1,30 +1,36 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="data"
-    sort-by="calories"
-    class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat>
-        <v-toolbar-title>Users</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
-        <v-confirm
-          :dialog="dialogConfirmRemove"
-          remove="saveRemove"
-          @changeDialogConfirm="dialogConfirmRemove = $event"
-        ></v-confirm>
-      </v-toolbar>
-      <v-loading :loading="dialogLoading"></v-loading>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-loading :loading="true"></v-loading>
-    </template>
-  </v-data-table>
+  <v-card>
+    <v-card-title class="text-center justify-center py-6 box-header">
+      <span class="title-page mb-4">USER</span>
+    </v-card-title>
+    <v-row>
+      <v-col cols="8" offset="2">
+        <v-data-table
+          :headers="headers"
+          :items="data"
+          sort-by="calories"
+          class="elevation-1"
+        >
+          <template v-slot:top>
+            <v-toolbar flat>
+              <v-confirm
+                :dialog="dialogConfirmRemove"
+                remove="saveRemove"
+                @changeDialogConfirm="dialogConfirmRemove = $event"
+              ></v-confirm>
+            </v-toolbar>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+          </template>
+          <template v-slot:no-data>
+            <v-loading :loading="true"></v-loading>
+          </template>
+        </v-data-table>
+      </v-col>
+    </v-row>
+    <v-loading :loading="dialogLoading"></v-loading>
+  </v-card>
 </template>
 
 <script>

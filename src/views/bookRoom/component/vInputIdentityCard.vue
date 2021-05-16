@@ -1,6 +1,6 @@
 <template>
-  <v-form>
-    <v-container>
+  <v-container>
+    <v-form>
       <v-row v-if="!isCustomer" class="mt-4" ref="form" lazy-validation>
         <v-col cols="3" sm="3"></v-col>
         <v-col cols="4" sm="4">
@@ -35,20 +35,21 @@
         :rooms="roomsEmpty"
         @sendDataInput="dataBookRoom = $event"
       ></v-rooms-empty>
-      <v-loading :loading="checkLoading"></v-loading>
-    </v-container>
-  </v-form>
+    </v-form>
+    <v-overlay :absolute="true" :value="checkLoading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
+  </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 import VRoomsEmpty from "./vRoomsEmpty";
 import VShowCustomer from "./vShowCustomer";
-import VLoading from "../../../components/vLoading";
 
 export default {
   name: "vInputIdentityCard",
-  components: { VLoading, VShowCustomer, VRoomsEmpty },
+  components: { VShowCustomer, VRoomsEmpty },
   data: () => ({
     checkLoading: false,
     loadingButton: false,
@@ -89,7 +90,7 @@ export default {
       this.bookRoom(data)
         .then(() => {
           this.$toast.success("Book Room Successfully");
-          this.dataBookRoom=Object.assign({},this.dataBookRoomDefault);
+          this.dataBookRoom = Object.assign({}, this.dataBookRoomDefault);
         })
         .catch((err) => {
           this.$toast.error(err.data.message);

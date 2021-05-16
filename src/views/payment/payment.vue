@@ -1,15 +1,7 @@
 <template>
   <v-card>
-    <v-card-title>
-      Payment
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
+    <v-card-title class="text-center justify-center py-6 box-header">
+      <span class="title-page mb-4">PAYMENT</span>
     </v-card-title>
     <v-data-table :headers="headers" :items="data" :search="search">
       <template v-slot:item.payment="{ item }">
@@ -18,7 +10,7 @@
           class="d-flex justify-center align-center"
           title="Payment"
         >
-          <v-icon> mdi-card-remove </v-icon>
+          <v-icon> mdi-cart </v-icon>
         </v-btn>
       </template>
     </v-data-table>

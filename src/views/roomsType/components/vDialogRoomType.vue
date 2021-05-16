@@ -95,9 +95,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.modal {
-  border-bottom: 1px solid #3333;
-  justify-content: center;
-  background: var(--title-modal) !important;
-}
 </style>

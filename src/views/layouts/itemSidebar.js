@@ -5,34 +5,34 @@ const menu = [
     to: "/",
   },
   {
-    icon: "mdi-dock-window",
-    title: "Rooms",
-    to: "/rooms",
+    icon: "mdi-book-check-outline",
+    title: "Book Room",
+    to: "/book-room",
   },
   {
-    icon: "mdi-dock-window",
-    title: "Rooms Type",
-    to: "/roomsType",
+    icon: "mdi-cart",
+    title: "Payment",
+    to: "/payment",
   },
   {
-    icon: "mdi-dock-window",
+    icon: "mdi-account",
     title: "Users",
     to: "/users",
   },
   {
-    icon: "mdi-dock-window",
+    icon: "mdi-account-reactivate-outline",
     title: "Customers",
     to: "/customers",
   },
   {
     icon: "mdi-dock-window",
-    title: "Book Room",
-    to: "/book-room",
+    title: "Rooms",
+    to: "/rooms",
   },
   {
-    icon: "mdi-dock-window",
-    title: "Payment",
-    to: "/payment",
+    icon: "mdi-alpha-t-box",
+    title: "Rooms Type",
+    to: "/roomsType",
   },
 ];
 

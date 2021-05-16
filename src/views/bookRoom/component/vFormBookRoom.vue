@@ -2,7 +2,7 @@
   <v-dialog v-model="checkDialog" persistent max-width="600px">
     <v-card>
       <v-card-title class="modal">
-        <span class="headline">Add New Room</span>
+        <span class="headline">Book Room</span>
       </v-card-title>
       <v-card-text class="px-6">
         <v-container>

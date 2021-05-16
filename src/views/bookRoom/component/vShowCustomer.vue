@@ -5,7 +5,7 @@
         <span class="text-title">Name Customer:</span>
         <span class="text-value">{{ customer.name }}</span>
       </div>
-      <div class="d-flex justify-space-between mx-8 my-4  ">
+      <div class="d-flex justify-space-between mx-8 my-4">
         <span class="text-title">Phone Number:</span>
         <span class="text-value">{{ customer.phoneNumber }}</span>
       </div>
@@ -23,22 +23,22 @@ export default {
   props: {
     customer: Object,
   },
-  created(){
+  created() {
     console.log(this.customer);
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
-.border-info{
+.border-info {
   border: 1px solid #333;
   border-radius: 20px;
-  .text-title{
+  .text-title {
     font-size: 20px;
     color: #333;
-    font-family: inherit
+    font-family: inherit;
   }
-  .text-value{
+  .text-value {
     font-size: 20px;
     color: #333333d1;
     font-family: cursive;

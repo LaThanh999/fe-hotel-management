@@ -1,41 +1,46 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="roomType"
-    sort-by="calories"
-    class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat>
-        <v-toolbar-title>Room Types</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
-        <v-dialog-room-type
-          :title="title"
-          :dialog="dialogAddEdit"
-          :roomType="itemEdit"
-          @changeDialog="dialogAddEdit = $event"
-          :save="saveAddEditRoomType"
-          @sendRoomType="itemResult = $event"
-        ></v-dialog-room-type>
-      </v-toolbar>
-      <v-confirm
-        :dialog.sync="dialogConfirm"
-        @changeDialogConfirm="dialogConfirm = $event"
-        :remove="saveRemoveRoomType"
-      ></v-confirm>
-      <v-loading :loading="checkLoading"></v-loading>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="clickEditRoomType(item)">
-        mdi-pencil
-      </v-icon>
-      <v-icon small @click="clickRemoveRoomType(item)"> mdi-delete </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-loading :loading="true"></v-loading>
-    </template>
-  </v-data-table>
+  <v-card>
+    <v-card-title class="text-center justify-center py-6 box-header">
+      <span class="title-page mb-4">ROOM TYPE</span>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="roomType"
+      sort-by="calories"
+      class="elevation-1"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title>Room Types</v-toolbar-title>
+          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-spacer></v-spacer>
+          <v-dialog-room-type
+            :title="title"
+            :dialog="dialogAddEdit"
+            :roomType="itemEdit"
+            @changeDialog="dialogAddEdit = $event"
+            :save="saveAddEditRoomType"
+            @sendRoomType="itemResult = $event"
+          ></v-dialog-room-type>
+        </v-toolbar>
+        <v-confirm
+          :dialog.sync="dialogConfirm"
+          @changeDialogConfirm="dialogConfirm = $event"
+          :remove="saveRemoveRoomType"
+        ></v-confirm>
+        <v-loading :loading="checkLoading"></v-loading>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-icon small class="mr-2" @click="clickEditRoomType(item)">
+          mdi-pencil
+        </v-icon>
+        <v-icon small @click="clickRemoveRoomType(item)"> mdi-delete </v-icon>
+      </template>
+      <template v-slot:no-data>
+        <v-loading :loading="true"></v-loading>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>

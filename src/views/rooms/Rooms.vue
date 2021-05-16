@@ -1,8 +1,10 @@
 <template>
   <v-container fluid>
+    <v-card-title class="text-center justify-center py-6 box-header">
+      <span class="title-page mb-4">ROOMS</span>
+    </v-card-title>
     <v-row>
-      <v-col cols="1"></v-col>
-      <v-col cols="4">
+      <v-col cols="4" offset="1">
         <v-combobox
           v-model="roomTypeSelect"
           :items="listRoomType"
@@ -12,17 +14,15 @@
         >
         </v-combobox>
       </v-col>
-      <v-col cols="2"></v-col>
-      <v-col cols="4">
+      <v-col cols="4" offset="1">
         <v-combobox
           v-model="roomStatusSelect"
           :items="listRoomStatus"
-          label="Room Type"
+          label="Room Status"
           item-text="value"
           item-value="id"
         ></v-combobox>
       </v-col>
-      <v-col cols="2"></v-col>
     </v-row>
     <div class="d-flex justify-space-between mx-8">
       <div class="header">
@@ -33,18 +33,16 @@
         Add Room
       </v-btn>
     </div>
-    <div v-if="listRoom.length > 0" class="mt-2 rooms">
+    <div v-show="listRoom.length > 0 && showRooms" class="mt-2 rooms">
       <v-row class="pa-6">
         <v-col v-for="room in listRoom" :key="room.id" cols="4">
-          <card-room :room="room"></card-room> </v-col
-        >`
+          <card-room :room="room"></card-room>
+        </v-col>
       </v-row>
     </div>
-    <div v-else class="mt-4">
-      <v-alert prominent type="error">
-        <v-row align="center">
-          <v-col class="grow"> Rooms is empty. </v-col>
-        </v-row>
+    <div v-show="listRoom.length == 0 && showRooms" class="mt-4">
+      <v-alert border="right" colored-border type="error" elevation="2">
+        Not Find Room
       </v-alert>
     </div>
     <v-add-room
@@ -89,6 +87,7 @@ export default {
     },
     roomTypeSelect: null,
     roomStatusSelect: null,
+    showRooms: false,
   }),
   async created() {
     this.dialogLoading = true;
@@ -112,6 +111,7 @@ export default {
       return el;
     });
     this.dialogLoading = false;
+    this.showRooms = true;
   },
   watch: {
     rooms(value) {
@@ -122,14 +122,24 @@ export default {
       });
     },
     roomTypeSelect(val) {
-      this.listRoom = this.getByRoomType(val.id);
+      if (this.roomStatusSelect.id ==0 || !this.roomStatusSelect ){
+        this.listRoom = this.getByRoomType(val.id);
+      }
+      else {
+        this.listRoom = this.getByRoomTypeAndStatus(val.id,this.roomStatusSelect.id);
+      }
       this.listRoom = this.listRoom.map((el) => {
         el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
         return el;
       });
     },
     roomStatusSelect(val) {
-      this.listRoom = this.getByRomStatus(val.id);
+      if (this.roomTypeSelect.id == 0 || !this.roomTypeSelect ){
+        this.listRoom = this.getByRomStatus(val.id);
+      }
+      else {
+        this.listRoom = this.getByRoomTypeAndStatus(this.roomTypeSelect.id,val.id);
+      }
       this.listRoom = this.listRoom.map((el) => {
         el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
         return el;
@@ -138,7 +148,7 @@ export default {
   },
   computed: {
     ...mapState("rooms", ["rooms"]),
-    ...mapGetters("rooms", ["getByRomStatus", "getByRoomType"]),
+    ...mapGetters("rooms", ["getByRomStatus", "getByRoomType","getByRoomTypeAndStatus"]),
   },
   methods: {
     ...mapActions("rooms", ["getAllRooms", "addRoom", "removeRoom"]),
