@@ -122,11 +122,13 @@ export default {
       });
     },
     roomTypeSelect(val) {
-      if (this.roomStatusSelect.id ==0 || !this.roomStatusSelect ){
+      if (this.roomStatusSelect.id == 0 || !this.roomStatusSelect) {
         this.listRoom = this.getByRoomType(val.id);
-      }
-      else {
-        this.listRoom = this.getByRoomTypeAndStatus(val.id,this.roomStatusSelect.id);
+      } else {
+        this.listRoom = this.getByRoomTypeAndStatus(
+          val.id,
+          this.roomStatusSelect.id
+        );
       }
       this.listRoom = this.listRoom.map((el) => {
         el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
@@ -134,11 +136,13 @@ export default {
       });
     },
     roomStatusSelect(val) {
-      if (this.roomTypeSelect.id == 0 || !this.roomTypeSelect ){
+      if (this.roomTypeSelect.id == 0 || !this.roomTypeSelect) {
         this.listRoom = this.getByRomStatus(val.id);
-      }
-      else {
-        this.listRoom = this.getByRoomTypeAndStatus(this.roomTypeSelect.id,val.id);
+      } else {
+        this.listRoom = this.getByRoomTypeAndStatus(
+          this.roomTypeSelect.id,
+          val.id
+        );
       }
       this.listRoom = this.listRoom.map((el) => {
         el.roomStatusMapping = ROOM_STATUS_MAPPING[el.roomStatus];
@@ -148,7 +152,11 @@ export default {
   },
   computed: {
     ...mapState("rooms", ["rooms"]),
-    ...mapGetters("rooms", ["getByRomStatus", "getByRoomType","getByRoomTypeAndStatus"]),
+    ...mapGetters("rooms", [
+      "getByRomStatus",
+      "getByRoomType",
+      "getByRoomTypeAndStatus",
+    ]),
   },
   methods: {
     ...mapActions("rooms", ["getAllRooms", "addRoom", "removeRoom"]),

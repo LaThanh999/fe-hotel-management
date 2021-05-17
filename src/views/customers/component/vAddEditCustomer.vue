@@ -1,9 +1,9 @@
 <template>
   <v-dialog v-model="checkDialog" persistent max-width="600px">
     <template v-slot:activator="{ on, attrs }">
-<!--      <v-btn color="primary" dark v-bind="attrs" v-on="on">-->
-<!--        Add Customer-->
-<!--      </v-btn>-->
+      <!--      <v-btn color="primary" dark v-bind="attrs" v-on="on">-->
+      <!--        Add Customer-->
+      <!--      </v-btn>-->
       <v-btn raised rounded v-bind="attrs" v-on="on">
         <v-icon left> mdi-plus </v-icon>
         Add Customer

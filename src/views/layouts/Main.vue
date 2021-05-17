@@ -2,7 +2,10 @@
   <section>
     <v-nav-bar></v-nav-bar>
     <v-navigation-drawer class="sidebar" app>
-      <v-list-item @click="clickToHome" class="sidebar-header d-flex align-center justify-center">
+      <v-list-item
+        @click="clickToHome"
+        class="sidebar-header d-flex align-center justify-center"
+      >
         <v-icon class="mr-2">mdi-home-variant</v-icon>
         <v-list-item-content class="project-name">
           <v-list-item-title>Hotel Management</v-list-item-title>
@@ -26,10 +29,10 @@ export default {
   components: { VNavBar, VSideBar },
   data: () => ({}),
   methods: {
-    clickToHome(){
+    clickToHome() {
       this.$router.push("/");
-    }
-    }
+    },
+  },
 };
 </script>
 

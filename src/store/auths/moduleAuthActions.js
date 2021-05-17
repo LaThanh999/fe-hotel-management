@@ -20,6 +20,7 @@ export default {
             refreshToken: res.data.refreshToken,
           });
           resolve(res);
+          console.log(res);
         })
         .catch((err) => {
           reject(err.response);

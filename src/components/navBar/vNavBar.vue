@@ -10,10 +10,21 @@
       solo
     ></v-text-field>
     <v-spacer></v-spacer>
-    <v-btn @click="clickLogOut" text>
-      <v-icon class="mr-2">mdi-logout</v-icon>
-      Log Out
-    </v-btn>
+    <v-menu left bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn v-bind="attrs" v-on="on">
+          <span>{{user.email}}</span>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item>
+          <v-btn @click="clickLogOut" text>
+            <v-icon class="mr-2">mdi-logout</v-icon>
+            Log Out
+          </v-btn>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>
 
@@ -22,12 +33,22 @@ import { mapActions } from "vuex";
 
 export default {
   name: "vNavBar",
+  data:()=>({
+    user:{}
+  }),
+  created() {
+    this.getUserInfo();
+  },
   methods: {
     ...mapActions("auths", ["logout"]),
     clickLogOut() {
       this.logout();
       this.$router.push("/login");
     },
+    getUserInfo() {
+      const data=localStorage.getItem("userInfo");
+      this.user=JSON.parse(data);
+    }
   },
 };
 </script>
