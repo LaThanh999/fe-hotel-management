@@ -13,7 +13,7 @@
     <v-menu left bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on">
-          <span>{{user.email}}</span>
+          <span>{{ user.email }}</span>
         </v-btn>
       </template>
       <v-list>
@@ -33,8 +33,8 @@ import { mapActions } from "vuex";
 
 export default {
   name: "vNavBar",
-  data:()=>({
-    user:{}
+  data: () => ({
+    user: {},
   }),
   created() {
     this.getUserInfo();
@@ -46,9 +46,9 @@ export default {
       this.$router.push("/login");
     },
     getUserInfo() {
-      const data=localStorage.getItem("userInfo");
-      this.user=JSON.parse(data);
-    }
+      const data = localStorage.getItem("userInfo");
+      this.user = JSON.parse(data);
+    },
   },
 };
 </script>
